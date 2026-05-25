@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
       g.achievements.map((a: any) => computeProgress(g.uomType as any, g.target, a.actual))
       )
       const avgProgress = scores.length > 0
-        ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+        ? Math.round(scores.reduce((a: number, b: number) => a + b, 0) / scores.length)
         : 0
 
       const checkIns = await prisma.checkIn.count({
