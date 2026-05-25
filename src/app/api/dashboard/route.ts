@@ -19,8 +19,8 @@ export async function GET(req: NextRequest) {
       })
 
       const goals = sheet?.goals || []
-      const scores = goals.flatMap(g =>
-        g.achievements.map(a => computeProgress(g.uomType as any, g.target, a.actual))
+      const scores = goals.flatMap((g: any) =>
+      g.achievements.map((a: any) => computeProgress(g.uomType as any, g.target, a.actual))
       )
       const avgProgress = scores.length > 0
         ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
