@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { Role } from '@prisma/client'
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,9 +9,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    // Only allow EMPLOYEE or MANAGER via self-registration
-    const allowedRoles: Role[] = [Role.EMPLOYEE, Role.MANAGER]
-    const userRole = allowedRoles.includes(role) ? role : Role.EMPLOYEE
+    const allowedRoles = ['EMPLOYEE', 'MANAGER']
+    const userRole = allowedRoles.includes(role) ? role : 'EMPLOYEE'
 
     const user = await prisma.user.create({
       data: { id, name, email, role: userRole }
