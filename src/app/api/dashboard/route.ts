@@ -19,8 +19,8 @@ export async function GET(req: NextRequest) {
       })
 
       const goals = sheet?.goals || []
-      const scores = goals.flatMap((g: any) =>
-      g.achievements.map((a: any) => computeProgress(g.uomType as any, g.target, a.actual))
+      const scores: number[] = goals.flatMap((g: any) =>
+        g.achievements.map((a: any) => computeProgress(g.uomType as any, g.target, a.actual))
       )
       const avgProgress = scores.length > 0
         ? Math.round(scores.reduce((a: number, b: number) => a + b, 0) / scores.length)
@@ -44,9 +44,9 @@ export async function GET(req: NextRequest) {
         include: { goals: { include: { achievements: true } } }
       })
 
-      const pending = teamSheets.filter(s => s.status === 'SUBMITTED').length
-      const approved = teamSheets.filter(s => s.status === 'LOCKED').length
-      const totalGoals = teamSheets.flatMap(s => s.goals).length
+      const pending = teamSheets.filter((s: any) => s.status === 'SUBMITTED').length
+      const approved = teamSheets.filter((s: any) => s.status === 'LOCKED').length
+      const totalGoals = teamSheets.flatMap((s: any) => s.goals).length
       const checkIns = await prisma.checkIn.count({ where: { managerId: user.id } })
 
       return NextResponse.json({ totalGoals, approved, avgProgress: 0, checkIns, pending })
